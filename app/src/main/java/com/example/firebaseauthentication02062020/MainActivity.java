@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    Log.d("BBB",mAuth.getCurrentUser().getEmail());
+                                    Log.d("BBB", mAuth.getCurrentUser().getEmail());
                                     Toast.makeText(MainActivity.this, "Dang nhap thanh cong", Toast.LENGTH_SHORT).show();
                                 } else {
                                     Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         mBtnCapNhatThongTin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mAuth.getCurrentUser() != null){
+                if (mAuth.getCurrentUser() != null) {
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                             .setDisplayName("Pham Tan Phat")
                             .setPhotoUri(Uri.parse("https://img.icons8.com/plasticine/2x/android.png"))
@@ -92,14 +92,45 @@ public class MainActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(MainActivity.this, "Cap nhat thong tin thanh cong", Toast.LENGTH_SHORT).show();
-                                    }else{
+                                    } else {
                                         Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
                 }
+            }
+        });
+        mBtnCapNhatMatKhau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newPassword = "234567";
 
+                if (mAuth.getCurrentUser() != null) {
+//                    mAuth.getCurrentUser().updatePassword(newPassword)
+//                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<Void> task) {
+//                                    if (task.isSuccessful()) {
+//                                        Toast.makeText(MainActivity.this, "Cap nhat mat khau thanh cong", Toast.LENGTH_SHORT).show();
+//                                    }else{
+//                                        Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }
+//                            });
 
+                    mAuth.sendPasswordResetEmail(mAuth.getCurrentUser().getEmail())
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(MainActivity.this, "Gui email cap nhat mat khau", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                }
 
             }
         });
@@ -108,6 +139,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("BBB",mAuth.getCurrentUser().getEmail());
+        Log.d("BBB", mAuth.getCurrentUser().getEmail());
     }
 }
