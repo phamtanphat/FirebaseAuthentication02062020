@@ -129,9 +129,25 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-
                 }
-
+            }
+        });
+        mBtnXacThucEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mAuth.getCurrentUser() != null){
+                    mAuth.getCurrentUser().sendEmailVerification()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(MainActivity.this, "Gui xac thuc thanh cong", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
             }
         });
     }
