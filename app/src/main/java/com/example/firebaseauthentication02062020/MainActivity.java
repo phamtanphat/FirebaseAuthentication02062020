@@ -3,6 +3,7 @@ package com.example.firebaseauthentication02062020;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -72,6 +75,32 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }
                         });
+            }
+        });
+        mBtnCapNhatThongTin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mAuth.getCurrentUser() != null){
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setDisplayName("Pham Tan Phat")
+                            .setPhotoUri(Uri.parse("https://img.icons8.com/plasticine/2x/android.png"))
+                            .build();
+
+                    mAuth.getCurrentUser().updateProfile(profileUpdates)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(MainActivity.this, "Cap nhat thong tin thanh cong", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(MainActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+
+
+
             }
         });
     }
